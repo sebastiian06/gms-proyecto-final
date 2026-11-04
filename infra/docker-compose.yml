@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  # 1. Database (PostgreSQL)
+  db:
+    image: postgres:16-alpine
+    container_name: gms-db
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-gms}
+      POSTGRES_USER: ${POSTGRES_USER:-gms_app}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+    ports:
+      - "${POSTGRES_PORT:-5433}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ../gms-db/migrations:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-gms_app} -d ${POSTGRES_DB:-gms}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # 2. API (Spring Boot)
+  api:
+    build:
+      context: ../gms-api
+      dockerfile: ../gms-infra/Dockerfile.api
+    container_name: gms-api
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${POSTGRES_DB:-gms}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-gms_app}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      JWT_SECRET: ${JWT_SECRET}
+      GMS_SEED_ADMIN_USERNAME: ${GMS_SEED_ADMIN_USERNAME:-admin}
+      GMS_SEED_ADMIN_PASSWORD: ${GMS_SEED_ADMIN_PASSWORD:-admin123}
+      SPRING_PROFILES_ACTIVE: local
+    ports:
+      - "${API_PORT:-8080}:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # 3. Portal (React + Nginx)
+  portal:
+    build:
+      context: ../gms-portal
+      dockerfile: ../gms-infra/Dockerfile.portal
+    container_name: gms-portal
+    ports:
+      - "${PORTAL_PORT:-5173}:80"
+    depends_on:
+      - api
+
+volumes:
+  postgres_data:

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Dumbbell: GMS logo -->
+  <rect x="6" y="20" width="8" height="24" rx="2" fill="#1E40AF"/>
+  <rect x="14" y="16" width="6" height="32" rx="2" fill="#1E40AF"/>
+  <rect x="44" y="16" width="6" height="32" rx="2" fill="#1E40AF"/>
+  <rect x="50" y="20" width="8" height="24" rx="2" fill="#1E40AF"/>
+  <rect x="20" y="28" width="24" height="8" rx="1" fill="#1E40AF"/>
+  <!-- Inner detail -->
+  <rect x="14" y="24" width="6" height="16" rx="1" fill="#3B82F6" opacity="0.5"/>
+  <rect x="44" y="24" width="6" height="16" rx="1" fill="#3B82F6" opacity="0.5"/>
+</svg>
