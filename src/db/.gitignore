@@ -1,0 +1,33 @@
+# Environment and secrets
+.env
+.env.local
+.env.*.local
+*.secret
+
+# IDE
+.vscode/
+.idea/
+*.iml
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Database
+*.sql.gz
+*.dump
+*.backup
+
+# Logs
+*.log
+logs/
+
+# Flyway
+flyway.log
+
+# Temporary
+*.tmp
+tmp/
