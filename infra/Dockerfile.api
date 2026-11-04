@@ -2,11 +2,7 @@
 FROM eclipse-temurin:21-jdk-alpine AS build
 WORKDIR /app
 
-# Necesitamos el código de gms-api. Asumimos que el docker-compose lo montará o copiará.
-# Para mantener el repositorio independiente, usaremos un volumen en docker-compose o
-# simplemente asumiremos que el contexto de build es la carpeta gms-api.
-# NOTA: Como estamos en gms-infra, el docker-compose hará el build desde ../gms-api.
-
+# El contexto de build es la carpeta src/api del monorepo.
 COPY .mvn/ .mvn/
 COPY mvnw pom.xml ./
 RUN ./mvnw dependency:go-offline -B

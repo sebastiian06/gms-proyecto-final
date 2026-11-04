@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # 1. Database (PostgreSQL)
   db:
@@ -13,7 +11,7 @@ services:
       - "${POSTGRES_PORT:-5433}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ../gms-db/migrations:/docker-entrypoint-initdb.d
+      - ../src/db/migrations:/docker-entrypoint-initdb.d
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-gms_app} -d ${POSTGRES_DB:-gms}"]
       interval: 5s
@@ -23,8 +21,8 @@ services:
   # 2. API (Spring Boot)
   api:
     build:
-      context: ../gms-api
-      dockerfile: ../gms-infra/Dockerfile.api
+      context: ../src/api
+      dockerfile: ../../infra/Dockerfile.api
     container_name: gms-api
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${POSTGRES_DB:-gms}
@@ -43,8 +41,8 @@ services:
   # 3. Portal (React + Nginx)
   portal:
     build:
-      context: ../gms-portal
-      dockerfile: ../gms-infra/Dockerfile.portal
+      context: ../src/portal
+      dockerfile: ../../infra/Dockerfile.portal
     container_name: gms-portal
     ports:
       - "${PORTAL_PORT:-5173}:80"
