@@ -1,0 +1,21 @@
+@"
+# Java / Maven
+target/
+*.class
+*.log
+
+# Node / Vite
+node_modules/
+dist/
+
+# Secretos y entorno
+.env
+!.env.example
+
+# IDE y SO
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db
+"@ | Set-Content .gitignore -Encoding utf8
