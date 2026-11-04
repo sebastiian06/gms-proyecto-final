@@ -1,0 +1,232 @@
+{
+  "info": {
+    "name": "GMS API — c3-project",
+    "description": "Postman collection for the Gym Management System API (gms-api). Covers login and one full CRUD (Plans).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login (admin)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "pm.test('Response has token', function () {",
+                  "    pm.expect(body.token).to.be.a('string').and.not.empty;",
+                  "});",
+                  "pm.test('Response has user', function () {",
+                  "    pm.expect(body.user).to.be.an('object');",
+                  "    pm.expect(body.user.username).to.eql(pm.environment.get('adminUsername'));",
+                  "});",
+                  "",
+                  "pm.environment.set('adminToken', body.token);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"{{adminUsername}}\",\n  \"password\": \"{{adminPassword}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Plans (CRUD)",
+      "item": [
+        {
+          "name": "Create plan",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 201', function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "pm.test('Has id', function () { pm.expect(body.id).to.be.a('number'); });",
+                  "pm.test('Name matches', function () { pm.expect(body.name).to.eql('Basic'); });",
+                  "pm.test('Active is true', function () { pm.expect(body.active).to.eql(true); });",
+                  "",
+                  "pm.environment.set('planId', body.id);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Basic\",\n  \"price\": 50000.00,\n  \"durationDays\": 30\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/plans",
+              "host": ["{{baseUrl}}"],
+              "path": ["plans"]
+            }
+          }
+        },
+        {
+          "name": "List plans",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "pm.test('Content is array', function () { pm.expect(body.content).to.be.an('array'); });",
+                  "pm.test('At least one plan', function () { pm.expect(body.content.length).to.be.greaterThan(0); });"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/plans?page=0&size=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["plans"],
+              "query": [
+                { "key": "page", "value": "0" },
+                { "key": "size", "value": "20" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get plan by id",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "pm.test('Id matches', function () { pm.expect(body.id).to.eql(pm.environment.get('planId')); });"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/plans/{{planId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["plans", "{{planId}}"]
+            }
+          }
+        },
+        {
+          "name": "Update plan",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "const body = pm.response.json();",
+                  "pm.test('Name updated', function () { pm.expect(body.name).to.eql('Basic Updated'); });",
+                  "pm.test('Price updated', function () { pm.expect(body.price).to.eql(55000.00); });"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Basic Updated\",\n  \"price\": 55000.00,\n  \"durationDays\": 45\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/plans/{{planId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["plans", "{{planId}}"]
+            }
+          }
+        },
+        {
+          "name": "Deactivate plan",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 204', function () {",
+                  "    pm.response.to.have.status(204);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/plans/{{planId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["plans", "{{planId}}"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": []
+}
