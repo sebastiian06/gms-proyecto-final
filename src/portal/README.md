@@ -2,7 +2,7 @@
 
 > **GMS (Gym Management System)**: interfaz web que consume la API REST del sistema.
 
-Parte del **Proyecto Final del curso Métricas y Estándares de Calidad**. El portal es la capa de presentación de la aplicación: permite a cada rol (administrador, recepcionista, entrenador y socio) usar las funcionalidades del backend. Fue desarrollado originalmente en la asignatura Desarrollo Fullstack y se reutiliza aquí con autorización del docente.
+Parte del **Proyecto Final del curso Métricas y Estándares de Calidad**. El portal es la capa de presentación de la aplicación: permite a cada rol (administrador, recepcionista, entrenador y cliente) usar las funcionalidades del backend. Fue desarrollado originalmente en la asignatura Desarrollo Fullstack y se reutiliza aquí con autorización del docente.
 
 ## Tecnologías
 
@@ -40,13 +40,13 @@ src/portal/
 |---|---|
 | `Login` | Inicio de sesión |
 | `Dashboard` | Resumen general |
-| `Members`, `MemberDetail` | Gestión y detalle de socios |
+| `Members`, `MemberDetail` | Gestión y detalle de clientes |
 | `Plans` | Planes de membresía |
 | `Payments` | Pagos del gimnasio |
 | `Attendance`, `Kiosk` | Registro de asistencia (entrada y salida) |
 | `Users`, `Roles` | Administración de usuarios y roles |
-| `Trainers`, `Routines`, `AssignedMembers` | Entrenadores, rutinas y socios asignados |
-| `MyProfile`, `MyPayments`, `MyRoutine` | Vista del propio socio |
+| `Trainers`, `Routines`, `AssignedMembers` | Entrenadores, rutinas y clientes asignados |
+| `MyProfile`, `MyPayments`, `MyRoutine` | Vista del propio cliente |
 
 ## Ejecutar
 

@@ -27,12 +27,12 @@ Cada script crea o modifica una parte del esquema. Los módulos coinciden con lo
 | Versión | Descripción | Módulo |
 |---|---|---|
 | V001 | Tablas de identidad | identity |
-| V002 | Tablas de socios | members |
+| V002 | Tablas de clientes | members |
 | V003 | Tablas de planes | plans |
 | V004 | Tablas de facturación | billing |
 | V005 | Tablas de asistencia | attendance |
 | V006 | Tablas de entrenamiento | training |
-| V007 | Tabla de relación entrenador-socio | training |
+| V007 | Tabla de relación entrenador-cliente | training |
 | V008 | Agrega el rol de recepcionista | identity |
 | V009 | Refactorización del esquema de entrenamiento | training |
 | V010 | Agrega la marca de administrador del sistema | identity |

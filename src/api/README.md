@@ -20,7 +20,7 @@ Parte del **Proyecto Final del curso Métricas y Estándares de Calidad**. Este 
 ```text
 src/main/java/com/gms/
 ├── identity/     ← usuarios, roles, login, JWT, códigos de acceso
-├── members/      ← socios y cambio de plan
+├── members/      ← clientes y cambio de plan
 ├── plans/        ← planes de membresía
 ├── billing/      ← membresías y pagos
 ├── attendance/   ← registro de entrada y salida
