@@ -19,3 +19,10 @@ dist/
 .DS_Store
 Thumbs.db
 "@ | Set-Content .gitignore -Encoding utf8
+
+# Herramientas de medición (no subir binarios ni fuentes de terceros)
+metricas/herramientas/
+*.jar
+
+# Archivos temporales
+cp.txt
