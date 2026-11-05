@@ -130,18 +130,24 @@ Ver [`docs/metricas/mejoras.md`](docs/metricas/mejoras.md) para el análisis y l
 gms-proyecto-final/
 ├── README.md                  ← este archivo
 ├── docs/                      ← documentación del proyecto
-│   ├── requisitos.md          ← Fase 1: RF y RNF
-│   ├── trazabilidad.md        ← Fase 1: RF → componente → prueba
-│   ├── verificacion-rnf.md    ← Fase 3: verificación de RNF
-│   ├── arquitectura/          ← Fase 2: arquitectura y diagramas
-│   └── metricas/              ← Fase 4 y 5: fichas, resultados, gráficos
+│   ├── requisitos.md
+│   ├── trazabilidad.md
+│   ├── verificacion-rnf.md
+│   ├── informe-final.md
+│   ├── arquitectura/
+│   └── metricas/
 ├── infra/                     ← Docker Compose y Dockerfiles
-├── metricas/                  ← scripts y configuración de medición
+├── metricas/                  ← scripts y resultados de medición
+│   ├── README.md
+│   ├── scripts/               ← scripts de medición (Lizard, CK)
+│   └── resultados/            ← CSV de resultados
 ├── src/
 │   ├── api/                   ← backend Spring Boot
 │   ├── portal/                ← frontend React + Vite
 │   └── db/                    ← migraciones Flyway y seed
-└── tests/                     ← pruebas adicionales (si aplica)
+└── tests/                     ← pruebas de carga y pruebas adicionales
+    ├── README.md
+    └── carga-rnf01.ps1
 ```
 
 ## 9. Informe final
