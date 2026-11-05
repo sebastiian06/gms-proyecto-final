@@ -282,62 +282,64 @@ public class MemberService {
         Member member = memberRepository.findById(id)
                 .orElseThrow(() -> new MemberNotFoundException(id));
 
-        // 1. Actualizar nombre
-        if (request.fullName() != null
-                && !request.fullName().isBlank()) {
-            member.setFullName(request.fullName());
+        updateFullName(member, request.fullName());
+        updateContact(member, request.contact());
+        updateDocumentNumber(member, request.documentNumber());
+        updateCredentials(member, request.username(), request.password());
+        updatePlan(member, request.planId());
+        updateTrainer(member, request.trainerId());
+
+        return memberRepository.save(member);
+    }
+
+    private void updateFullName(Member member, String fullName) {
+        if (fullName != null && !fullName.isBlank()) {
+            member.setFullName(fullName);
+        }
+    }
+
+    private void updateContact(Member member, String contact) {
+        if (contact != null && !contact.isBlank()) {
+            member.setContact(contact);
+        }
+    }
+
+    private void updateDocumentNumber(Member member, String documentNumber) {
+        if (documentNumber == null || documentNumber.isBlank()) {
+            return;
         }
 
-        // 2. Actualizar contacto
-        if (request.contact() != null
-                && !request.contact().isBlank()) {
-            member.setContact(request.contact());
+        boolean isDifferent = !Objects.equals(
+                member.getDocumentNumber(), documentNumber);
+
+        if (isDifferent && memberRepository.existsByDocumentNumber(documentNumber)) {
+            throw new DuplicateDocumentNumberException(documentNumber);
         }
 
-        // 3. Actualizar documento
-        if (request.documentNumber() != null
-                && !request.documentNumber().isBlank()) {
+        member.setDocumentNumber(documentNumber);
+    }
 
-            if (!Objects.equals(
-                    member.getDocumentNumber(),
-                    request.documentNumber())
-                    && memberRepository.existsByDocumentNumber(
-                            request.documentNumber())) {
+    private void updateCredentials(Member member, String username, String password) {
+        boolean hasUsername = username != null && !username.isBlank();
+        boolean hasPassword = password != null && !password.isBlank();
 
-                throw new DuplicateDocumentNumberException(
-                        request.documentNumber()
-                );
-            }
-
-            member.setDocumentNumber(request.documentNumber());
-        }
-
-        // 4. Actualizar username y contraseña
-        if ((request.username() != null
-                && !request.username().isBlank())
-                || (request.password() != null
-                && !request.password().isBlank())) {
-
+        if (hasUsername || hasPassword) {
             identityFacade.updateUser(
                     member.getUserId(),
-                    request.username(),
-                    request.password(),
+                    username,
+                    password,
                     null
             );
         }
+    }
 
-        // 5. Cambiar plan si viene informado
-        if (request.planId() != null) {
-            changePlan(member.getId(), request.planId());
+    private void updatePlan(Member member, Long planId) {
+        if (planId != null) {
+            changePlan(member.getId(), planId);
         }
+    }
 
-        // 6. Actualizar entrenador
-        if (request.trainerId() != null) {
-            assignTrainer(member.getId(), request.trainerId());
-        } else {
-            assignTrainer(member.getId(), null);
-        }
-
-        return memberRepository.save(member);
+    private void updateTrainer(Member member, Long trainerId) {
+        assignTrainer(member.getId(), trainerId);
     }
 }
