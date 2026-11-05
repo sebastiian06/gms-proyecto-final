@@ -32,4 +32,6 @@ lizard src/api/src/main/java/com/gms -l java -C 10 --csv > metricas/resultados/l
 | `resultados/lizard-vg-loc.csv` | V(G) y LOC por método | Lizard |
 | `resultados/resultadosclass.csv` | Suite CK por clase | CK |
 | `resultados/resultadosmethod.csv` | Métricas por método | CK |
+## Interpretación
 
+Ver [`docs/metricas/`](../docs/metricas/) para las fichas, resultados interpretados y conclusiones.
